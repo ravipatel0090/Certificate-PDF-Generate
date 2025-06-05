@@ -2,12 +2,10 @@ const fs = require('fs');
 const path = require('path');
 const PdfPrinter = require('pdfmake');
 const vfsFonts = require('pdfmake/build/vfs_fonts');
-const jsonFile = require('../images/images.json');
 const moment = require('moment');
+const jsonFile = require('../images/images.json');
 
 const vfs = vfsFonts;
-
-
 
 const generatePDF = async (info) => {
     try {
@@ -29,113 +27,114 @@ const generatePDF = async (info) => {
         const printer = new PdfPrinter(fonts);
 
         const docDefinition = {
-            pageMargins: [20, 20, 20, 20],
+            pageMargins: [0, 0, 0, 0],
             content: [
+                // Canvas rectangle for visual border
                 {
-                    table: {
-                        widths: ['*'],
-                        body: [
-                            [
+                    canvas: [
+                        {
+                            type: 'rect',
+                            x: 10,
+                            y: 10,
+                            w: 560,
+                            h: 525,
+                            r:5,
+                            lineColor: '#008dc3',
+                            lineWidth: 10
+                        }
+                    ],
+                    absolutePosition: { x: 10, y: 10 }
+                },
+                {
+                    stack: [
+                        {
+                            columns: [
                                 {
                                     stack: [
-                                        {
-                                            columns: [
-                                                {
-                                                    stack: [
-                                                        { text: `Register-Id:- ${info?.registerId}`, style: 'info', marginTop: 15 },
-                                                        { text: `E-Mail: ${info?.email}`, style: 'info' },
-                                                        { text: `Phone No.: ${info?.phone}`, style: 'info' }
-                                                    ]
-                                                },
-                                                {
-                                                    image: jsonFile?.logo,
-                                                    width: 80
-                                                },
-                                                {
-                                                    stack: [
-                                                        { text: `${info?.address}`, style: 'info', marginTop: 15 },
-                                                        { text: `${info?.city} (${info?.zip})`, style: 'info' },
-                                                        { text: `(${info?.state}) ${info?.country}`, style: 'info' }
-                                                    ],
-                                                    alignment: 'right'
-                                                }
-                                            ],
-                                            margin: [0, 0, 0, 10]
-                                        },
-
-                                        { text: 'Certificate of Half Marathon', style: 'header' },
-                                        { text: 'This Certificate Presented to', style: 'subheader' },
-                                        { text: `${info?.name}`, style: 'name' },
-
-                                        {
-                                            text: `The certificate of achievement is awarded to individuals who have\ndemonstrated outstanding performance in their field. Here’s an example text\n for a certificate`,
-                                            style: 'body'
-                                        },
-
-                                        {
-
-                                            columns: [
-                                                {
-                                                    stack: [
-                                                        { text: `Date of Birth:- ${info?.dob}`, style: 'info' }
-                                                    ],
-                                                    width: '36%'
-                                                },
-                                                {
-                                                    stack: [
-                                                        { text: `Gender:- ${info?.gender}`, style: 'info' }
-                                                    ],
-                                                    alignment: 'center',
-                                                    width: '33.33%'
-                                                },
-                                                {
-                                                    stack: [
-                                                        { text: `Blood Group: ${info?.bloodGroup}`, style: 'info' }
-                                                    ],
-                                                    alignment: 'right',
-                                                    width: '33.33%'
-                                                }
-                                            ],
-                                            margin: [0, 20, 0, 20]
-                                        },
-                                        {
-                                            columns: [
-                                                {
-                                                    stack: [
-                                                        { text: moment().format('DD-MM-YYYY hh:mm:ss'), fontSize: 10, margin: [0, 25, 0, 1], alignment: 'center' },
-                                                        { text: '--------------------------------------------', fontSize: 10, margin: [0, 0, 0, 1] },
-                                                        { text: 'DATE - TIME', alignment: 'center', fontSize: 10, bold:true }
-                                                    ],
-                                                },
-                                                {
-                                                    image: jsonFile?.certificateStampLogo, // or relative path if supported
-                                                    width: 80,
-                                                    margin: [0, 10, 0, 10],
-                                                },
-                                                {
-                                                    stack: [
-                                                        { text: '--------------------------------------------', fontSize: 10, margin: [0, 35, 0, 1] },
-                                                        { text: 'Signature', alignment: 'center', fontSize: 10,bold:true }
-                                                    ],
-                                                    alignment: 'right'
-                                                }
-                                            ],
-                                            columnGap: 80,
-                                            margin: [0, 20, 0, 0]
-                                        },
+                                        { text: `Register-Id:- ${info?.registerId}`, style: 'info', marginTop: 15 },
+                                        { text: `E-Mail: ${info?.email}`, style: 'info' },
+                                        { text: `Phone No.: ${info?.phone}`, style: 'info' }
+                                    ]
+                                },
+                                {
+                                    image: jsonFile?.logo,
+                                    width: 80
+                                },
+                                {
+                                    stack: [
+                                        { text: `${info?.address}`, style: 'info', marginTop: 15 },
+                                        { text: `${info?.city} (${info?.zip})`, style: 'info' },
+                                        { text: `(${info?.state}) ${info?.country}`, style: 'info' }
                                     ],
-                                    margin: [30, 10, 30, 0]
+                                    alignment: 'right'
                                 }
-                            ]
-                        ]
-                    },
-                    layout: {
-                        hLineColor: () => '#008dc3',
-                        vLineColor: () => '#008dc3',
-                        hLineWidth: () => 8,
-                        vLineWidth: () => 8
-                    }
-                }
+                            ],
+                            margin: [40, 40, 40, 20]
+                        },
+
+                        { text: 'Certificate of Half Marathon', style: 'header' },
+                        { text: 'This Certificate Presented to', style: 'subheader' },
+                        { text: `${info?.name}`, style: 'name' },
+
+                        {
+                            text: `The certificate of achievement is awarded to individuals who have\ndemonstrated outstanding performance in their field. Here’s an example text\n for a certificate`,
+                            style: 'body'
+                        },
+
+                        {
+                            columns: [
+                                {
+                                    stack: [
+                                        { text: `Date of Birth:- ${info?.dob}`, style: 'info' }
+                                    ],
+                                    width: '36%'
+                                },
+                                {
+                                    stack: [
+                                        { text: `Gender:- ${info?.gender}`, style: 'info' }
+                                    ],
+                                    alignment: 'center',
+                                    width: '33.33%'
+                                },
+                                {
+                                    stack: [
+                                        { text: `Blood Group: ${info?.bloodGroup}`, style: 'info' }
+                                    ],
+                                    alignment: 'right',
+                                    width: '33.33%'
+                                }
+                            ],
+                            margin: [40, 30, 40, 20]
+                        },
+
+                        {
+                            columns: [
+                                {
+                                    stack: [
+                                        { text: moment().format('DD-MM-YYYY hh:mm:ss'), fontSize: 10, margin: [0, 25, 0, 1], alignment: 'center' },
+                                        { text: '--------------------------------------------', fontSize: 10, margin: [0, 0, 0, 1] },
+                                        { text: 'DATE - TIME', alignment: 'center', fontSize: 10, bold: true }
+                                    ],
+                                },
+                                {
+                                    image: jsonFile?.certificateStampLogo,
+                                    width: 80,
+                                    margin: [0, 10, 0, 10],
+                                },
+                                {
+                                    stack: [
+                                        { text: '--------------------------------------------', fontSize: 10, margin: [0, 35, 0, 1] },
+                                        { text: 'Signature', alignment: 'center', fontSize: 10, bold: true }
+                                    ],
+                                    alignment: 'right'
+                                }
+                            ],
+                            columnGap: 80,
+                            margin: [40, 20, 40, 0]
+                        }
+                    ]
+                },
+
             ],
             styles: {
                 info: { fontSize: 10, margin: [0, 2, 0, 2] },
@@ -146,7 +145,6 @@ const generatePDF = async (info) => {
             }
         };
 
-
         const pdfDoc = printer.createPdfKitDocument(docDefinition);
         const outputPath = path.join(__dirname, '../pdf', `${info?.name}-Certificate.pdf`);
         pdfDoc.pipe(fs.createWriteStream(outputPath));
@@ -155,9 +153,9 @@ const generatePDF = async (info) => {
         return { success: true }
 
     } catch (error) {
+        console.error(error);
         return { success: false, message: "PDF generation failed" }
     }
-}
+};
 
-module.exports = { generatePDF }
-
+module.exports = { generatePDF };
