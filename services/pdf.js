@@ -29,7 +29,6 @@ const generatePDF = async (info) => {
         const docDefinition = {
             pageMargins: [0, 0, 0, 0],
             content: [
-                // Canvas rectangle for visual border
                 {
                     canvas: [
                         {
