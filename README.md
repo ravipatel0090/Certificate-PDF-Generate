@@ -15,7 +15,7 @@ npm run start
 The server will start on http://localhost:8181 by default.
 
 📥 Generate PDF
-You can generate a certificate PDF by sending a POST request to /generate.
+You can generate a certificate PDF by sending a POST request to /generate-certificate.
 
 Example using curl:
 
